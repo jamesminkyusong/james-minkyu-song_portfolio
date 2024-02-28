@@ -1,0 +1,5 @@
+{
+	"all_topics": ["normal", "sexual", "violent"],
+	"filter_topics": ["sexual", "violent"],
+	"threshold": 0.9
+}

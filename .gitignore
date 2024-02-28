@@ -1,0 +1,12 @@
+.idea
+**/__pycache__/
+**/*.pyc
+
+/data_projects_personal_and_academic/asl_classifier/dataset/ASL_dataset_image.zip
+/data_projects_personal_and_academic/asl_classifier/dataset/sign_mnist.zip
+/data_projects_professional_20_to_22/apps/utils/covid19/
+/data_projects_professional_20_to_22/apps/scripts/cms2arcade/
+/data_projects_personal_and_academic/asl_classifier/output/asl_processed_data.csv
+/data_projects_personal_and_academic/asl_classifier/output/final_test.zip
+/data_projects_personal_and_academic/asl_classifier/output/final_train.zip
+/data_projects_personal_and_academic/evaluate_txt2img_bias/txt2img_bias_results.xlsx

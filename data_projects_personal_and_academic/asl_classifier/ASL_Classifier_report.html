@@ -1,0 +1,690 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Machine Learning Insights of Fingerspelling for the American Sign Language</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="19b25fc9-49c3-4152-b015-2ce072e01d8b" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👐🏻</span></div><h1 class="page-title">Machine Learning Insights of Fingerspelling for the American Sign Language</h1><p class="page-description"></p></header><div class="page-body"><p id="662bbcef-1bde-4cd9-bf5e-36295e85836f" class="">James Song</p><p id="a5bc5e79-69b9-406b-b23c-37dc3ecdb8ba" class="">Emory University</p><p id="d272da37-4b0d-4067-8dec-b04188098bd4" class="">CS 334: Machine Learning</p><h2 id="5af8342c-afdd-4eef-83aa-8fdc4430abd4" class="">1 | <strong>Abstract</strong></h2><p id="586da3af-ec3c-4700-8330-7e7d6a72ba42" class="">American Sign Language (ASL) plays a crucial role in the American deaf community. It provides a robust and descriptive means of communication for those in need. However, there is an enormous gap between the deaf population In the United States and the number of American Sign Language (ASL) users. This presents an important challenge that this project aims to tackle: to lessen the difference between the number of deaf people and the number of ASL users through application of hyper parameterized machine learning models. These models include K-Nearest Neighbors, Random Forest, Multilayer Perceptron, and Convolutional Neural Network, each uniquely interpreting the complexities of ASL.</p><h2 id="1114ef29-09ca-445e-96a9-0cfd066d18cf" class="">2 | <strong>Introduction</strong></h2><p id="1dec5b5a-de4d-4e8a-a084-2f73312f308e" class="">This project aims to address the issue of limited adoption of American Sign Language (ASL) within the deaf community. It is estimated that there are 2 million people who are classified as deaf and can’t hear sounds or speech even with aids. Despite this, American Sign Language (ASL) is only used by 250,000 to 500,0000 people in the US. One of the core causes for this phenomenon is from the lack of exposure to sign language in early deaf households. The Gallaudet Research Institute reported that an astonishing 72% of families with deaf children do not use sign language within their households. To provide a better ASL learning method for the deaf community, this project dives into various machine learning models capable of classifying fingerspelled ASL signs using a novel dataset, processed from two different sources.</p><h2 id="47784ba8-93e1-4c17-a558-08228b9e8464" class="">3 | <strong>Background</strong></h2><p id="dd5ccc10-b7dd-412b-9486-d056419e6347" class="">American Sign Language (ASL), a critical communication tool within the American deaf community, has seen various technological advancements aimed at bridging the gap between the deaf population and ASL users. A pioneering work in this area is the study conducted by Nicolas Pugeault and Richard Bowden, titled &quot;Spelling It Out: Real-Time ASL Fingerspelling Recognition&quot; (2011). Their research stands as a cornerstone in ASL recognition, where they utilized a subset of a large dataset comprising over 132,000 samples across five individuals. The essence of their methodology was the implementation of multiclass random forest classification, with a specific focus on the intricate process of hand extraction. This approach enabled the real-time recognition of fingerspelled letters in ASL, marking a significant milestone in the field.</p><p id="42663776-784c-46eb-9c71-73fd533c7529" class="">
+</p><p id="a7f1311e-a1ec-40de-b287-fe17df05bfc9" class="">Their work predates some of the major advancements in machine learning regarding this area, notably the release of the ASL MNIST dataset in 2017 and the subsequent widespread adoption of neural networks. These developments have opened new avenues for enhancing ASL recognition technologies. The use of deep learning and neural networks, for instance, presents an opportunity to build upon the foundational work of Pugeault and Bowden, potentially leading to more accurate and efficient ASL recognition systems. This project aims to integrate these newer technologies and methodologies with the existing datasets, including the one used by Pugeault and Bowden, to develop a more comprehensive and effective ASL fingerspelling classification model. The goal is to leverage the strengths of both traditional machine learning techniques and modern neural network architectures to create a solution that is not only more adept at recognizing fingerspelled signs but also more accessible to the deaf community, thus contributing to the reduction of the disparity between the number of deaf individuals and ASL users.</p><h2 id="3e631429-ab96-4a8b-9edb-35c1ff963a39" class="">4 | Methods</h2><p id="e68f5589-630c-44f6-9d88-d932c75a30b8" class="">This research employs four distinct machine learning algorithms to classify American Sign Language (ASL) fingerspelling. Each algorithm was selected for its potential effectiveness and unique characteristics suitable for the intricacies of ASL fingerspelling recognition, which is a multi-classification problem.<div class="indented"><h3 id="bf699b03-080a-4af0-8e0d-718e06d752f9" class="">4.1 | K-Nearest Neighbors (KNN)</h3><p id="f3ba8fdd-04d5-44af-accd-e91d759ef265" class="">KNN is a straightforward, non-parametric supervised learning method. It classifies data points based on the labels of their &#x27;k&#x27; nearest neighbors in the feature space. This simplicity and effectiveness in classification make KNN a suitable choice for ASL fingerspelling, given the importance of proximity in feature space for similar hand configurations.</p><h3 id="bae04507-5195-45d9-8b37-aeb0124e9d56" class="">4.2 | Random Forest</h3><p id="12558a5d-7136-43c3-aa1c-aa6d73811fe3" class="">Random Forest is an ensemble learning method that builds multiple decision trees during training and outputs the mode of the classes of individual trees. This method is beneficial for ASL fingerspelling recognition, as it handles high-dimensional data well and reduces overfitting, thus providing robust and accurate classification results</p><p id="5e2aceff-0656-4aaa-a386-345ad8f287d6" class="">
+</p><p id="12e54474-3a46-4cf7-8861-531e11d3484a" class="">
+</p><h3 id="18c8a871-daa5-467b-a2b5-7d13bcdb6f0c" class="">4.3 | Multilayer Perceptron (MLP)</h3><p id="d4293a46-2e76-49c3-a277-67ac63d3b158" class="">MLP, a class of feedforward artificial neural networks, consists of multiple layers of interconnected nodes. This structure allows MLP to capture complex patterns and relationships in data, which is essential for accurate ASL fingerspelling classification where nuances in hand gestures are critical.</p><h3 id="b181a3a5-b191-49cf-a4f9-56f0ca9cdc71" class="">4.4 | Convolutional Neural Network (CNN)</h3><p id="3b2c60b1-6381-4205-9928-2d8b56b1b5ba" class="">CNN is particularly suited for image classification tasks, making it highly relevant for ASL fingerspelling recognition. CNNs can automatically and adaptively learn spatial hierarchies of features from input images, efficiently processing and classifying the visual data inherent in ASL fingerspelling. This ability to capture detailed hand shapes and movements makes CNNs ideal for this project.</p></div></p><h2 id="e0afa9c5-bc73-48c9-9fe8-bc08bc761847" class="">5 | Creating a Novel Dataset: ASL_PB_MNIST Dataset</h2><p id="507d4f89-6ce7-4bdc-8c59-2aa4d588dd96" class="">In the quest to enhance American Sign Language (ASL) fingerspelling classification through machine learning, this research was motivated to combine two distinct datasets: the &quot;Sign Language MNIST&quot; (released in 2017) and the &quot;ASL Fingerspelling&quot; dataset. The decision to amalgamate these datasets was driven by a desire to build upon the foundational work of Pugeault &amp; Bowden from 2011 and leverage the advancements in machine learning and image processing that have emerged since then. Since this novel dataset would not be able to exist without standing on the shoulders of these giants, I decided to add PB (Pugeault &amp; Bowden) and MNIST to the naming convention of the dataset.<div class="indented"><h3 id="cf58bea3-3bdc-439d-8920-fb7032a10fef" class="">5.1 | Dataset Description</h3><p id="f41252e9-b34f-49ed-a86c-c1cb24f794bb" class="">The &quot;ASL Fingerspelling&quot; and &quot;Sign Language MNIST&quot; datasets were chosen for their complementary strengths and the richness of data they offer. The ASL Fingerspelling dataset, while robust and well-structured, was limited in its diversity due to the file format. On the other hand, the ASL Fingerspelling dataset, with its extensive collection of images from various individuals, offered a rich diversity in hand shapes and spellings but lacked the structured format of the MNIST dataset.</p><p id="6bed98ad-03d4-4ce9-8a2b-4b7cef35674e" class="">The goal was to create a comprehensive and diverse dataset that could potentially address the limitations of previous studies, such as the one conducted by Pugeault &amp; Bowden in 2011. Their work, groundbreaking for its time, was constrained by the limitations in data diversity and volume. By combining these two datasets, I aimed to create a more robust and varied dataset that would not only enhance the generalizability of the model but also provide a more nuanced understanding of the intricacies involved in ASL fingerspelling.</p><p id="8f2a9ce2-9ee8-4c45-adc8-627d0596e6f3" class="">
+</p><p id="bf37d9c7-cc33-48c9-9b33-40cefcc8e3f3" class="">
+</p><table id="f4a8a036-be41-4aa6-a24f-9ec1b0c3d77e" class="simple-table"><thead class="simple-table-header"><tr id="9d033bad-668d-425d-a348-ef90e654f270"><th id="}p|I" class="simple-table-header-color simple-table-header"></th><th id="O_a_" class="simple-table-header-color simple-table-header">ASL Fingerspelling Dataset</th><th id="uqNl" class="simple-table-header-color simple-table-header" style="width:312px">Sign Language MNIST</th></tr></thead><tbody><tr id="d7facdd3-0deb-40f2-8614-5c19754090df"><td id="}p|I" class="">Format</td><td id="O_a_" class="">PNG Image Files</td><td id="uqNl" class="" style="width:312px">CSV</td></tr><tr id="e18daabe-435f-4f86-a954-d7e9780b4e4d"><td id="}p|I" class="">Size</td><td id="O_a_" class="">132,000 image files</td><td id="uqNl" class="" style="width:312px">27,456 rows of train data &amp; 7,172 rows of test data</td></tr><tr id="ab3e6c2a-28d9-4442-87b2-aea99c462d29"><td id="}p|I" class="">Description</td><td id="O_a_" class="">A diverse collection of fingerspelling gestures by 5 different individuals. Each image varies in pixel resolution.</td><td id="uqNl" class="" style="width:312px">Each row represents a grayscale image of fingerspelling, encoded as 784-pixel values.</td></tr></tbody></table><p id="d18fdd1d-7338-4829-aeee-0fe6ddaa6999" class="">Despite both datasets serving a similar purpose, their varying formats necessitated significant data cleaning and transformation to fit the model designs.</p><h3 id="18bec024-3995-4b24-938b-d44c9643c8ba" class="">5.2 | Dataset Preparation</h3><p id="5c999e37-902d-45cc-aa8b-01fef582d741" class="">Combining these datasets involved transforming the ASL Fingerspelling images to match the MNIST format (28x28 pixels, grayscale) and concatenating them into a single dataset. The following steps were undertaken:</p><ul id="a576ffea-b6b1-4ff2-b4e5-3103b8b4b511" class="bulleted-list"><li style="list-style-type:disc">Each ASL Fingerspelling image was resized and converted to grayscale to match the MNIST format, resulting in 784-pixel value representations.</li></ul><ul id="5b4cbe75-153e-4b8f-b700-cc551ee67601" class="bulleted-list"><li style="list-style-type:disc">For both datasets following preprocessing was carried out before concatenating the two:<ul id="099908de-07dd-4049-bff7-f4338f4157da" class="bulleted-list"><li style="list-style-type:circle">Pixel values were standardized (scaled between 0-1) by dividing by 255.</li></ul><ul id="e3110f05-be33-4914-9c6c-ea2ec53a480c" class="bulleted-list"><li style="list-style-type:circle">One Hot Encoding was applied to the labels, resulting in an additional 24 columns (excluding J and Z), thus forming a dataset with 809 columns (1 label, 784 pixel features, 24 one-hot encoded labels).</li></ul></li></ul><ul id="cba49846-fb06-42d8-905d-15b176051ec7" class="bulleted-list"><li style="list-style-type:disc">The combined dataset (166,295 rows x 809 features) was then shuffled to ensure a random distribution of the hand models.</li></ul><p id="2b078cf2-11f7-4f96-82af-a25f072d72d7" class="">Only then, the dataset was finally ready to be split into train/test datasets with a standard 80:20 ratio, resulting in:</p><ul id="052f0094-32da-41ab-98ae-37d12294c1b7" class="bulleted-list"><li style="list-style-type:disc"><strong>Train Dataset</strong>: 133,024 rows x 809 columns (1 label, 784 pixel features, 24 one-hot encoded features)</li></ul><ul id="078878a0-caee-4eaf-afa2-8fdf8979dd7f" class="bulleted-list"><li style="list-style-type:disc"><strong>Test Dataset :</strong> 33,271 rows x 809 columns </li></ul><h3 id="b6b8db20-0002-4677-acbc-e2f96923cd13" class="">5.3 | Feature Selection</h3><p id="8b2afa81-33b0-4f65-bd31-d9873a529db9" class="">Feature selection was carried out with a focus on removing redundant or non-informative features. A Variance Threshold check was performed, assuming that pixels with low variance across images might not carry significant information. However, the variance was relatively consistent across all pixels (around 0.15), and a threshold of 0.05 did not eliminate any columns. This result indicated that most of the pixel data contributed valuable information for the multi-classification task and I did not exclude any features upon this verification. </p></div></p><h2 id="52c19d7b-db80-442e-8ea9-f5016a2117c6" class="">6 | Experiment: Modeling Choices</h2><p id="0d1256a3-fb88-4873-9e70-399039588e6a" class="">In pursuit of a robust and effective ASL fingerspelling classification system, I selected four distinct machine learning models best suit for multi-classification problems, each with unique attributes and strengths. The chosen models were K-Nearest Neighbors (KNN), Random Forest, Multilayer Perceptron (MLP), and Convolutional Neural Network (CNN). The parameters for each model were determined based on their suitability for the task and the need to balance model complexity with performance.</p><table id="631dd399-6d84-4638-a0cf-b9e06fa38f61" class="simple-table"><thead class="simple-table-header"><tr id="e67bea87-839d-47ff-b60c-cecebda56eea"><th id="D@SQ" class="simple-table-header-color simple-table-header">Model</th><th id="qOJs" class="simple-table-header-color simple-table-header" style="width:311.9921875px">Parameters</th><th id="Dfm_" class="simple-table-header-color simple-table-header">Advantages</th></tr></thead><tbody><tr id="86e6dd7d-6172-4064-8bb9-71d7a136b852"><td id="D@SQ" class="">KNN</td><td id="qOJs" class="" style="width:311.9921875px">‘k’: 2,<br/>&#x27;weights&#x27;: distance,<br/>&#x27;metrics&#x27;: euclidean<br/></td><td id="Dfm_" class="">KNN was selected for its simplicity and effectiveness in classification problems</td></tr><tr id="40060d93-223a-46e4-93ca-9d745dbf6b0e"><td id="D@SQ" class="">RF</td><td id="qOJs" class="" style="width:311.9921875px">&#x27;n_estimators&#x27;: 400, &#x27;min_samples_split&#x27;: 2, <br/>&#x27;min_samples_leaf&#x27;: 1, &#x27;max_features&#x27;: &#x27;auto&#x27;, <br/>&#x27;max_depth&#x27;: 40<br/></td><td id="Dfm_" class="">RF was chosen for its ability to handle high-dimensional data and reduce overfitting. The parameters were selected through grid search</td></tr><tr id="ed8b173d-83ab-4018-a137-0bf46bf2f072"><td id="D@SQ" class="">MLP</td><td id="qOJs" class="" style="width:311.9921875px">‘layers’: 5<br/>’epochs’: 50<br/>’batch size’: 64<br/>’validation split’: 20% (0.2)<br/></td><td id="Dfm_" class="">MLP was chosen for its ability to capture complex patterns through its deep network architecture. </td></tr><tr id="cd4df241-149b-4a31-89e2-b5c1bac1e812"><td id="D@SQ" class="">CNN</td><td id="qOJs" class="" style="width:311.9921875px">‘layers’: 7<br/>’epochs’: 20<br/>’batch size’: 64<br/>’validation split’: 20% (0.2)<br/></td><td id="Dfm_" class="">CNN was selected for its proficiency in image classification tasks, making it ideal for ASL fingerspelling recognition. </td></tr></tbody></table><h2 id="de2e135b-df24-4771-8348-42a98e420273" class="">7 | Empirical Results </h2><div id="7bd33279-f330-41de-8e41-c89dbb4b71a9" class="column-list"><div id="3a24dfb3-89c1-4f0c-a329-7f8b22abeac4" style="width:100%" class="column"><p id="c8240a95-d296-4bac-ac33-5e5864f7d319" class=""><strong>KNN Classification Report<br/>Test Accuracy: 0.949<br/></strong></p><figure id="4757ddf7-38b5-431e-9fb5-ba7c3833e782" class="image"><a href="html_resources/Untitled.png"><img style="width:1006px" src="html_resources/Untitled.png"/></a></figure></div><div id="26f39038-cb47-47cb-b476-ec287ad57263" style="width:100%" class="column"><p id="7f864467-9138-45e1-ac41-914841233cfc" class=""><strong>Random Forest Classification Report<br/>Test Accuracy: 0.945<br/></strong></p><figure id="9be8a9b3-34a6-4fae-bff6-1dbfb34c1404" class="image"><a href="html_resources/Untitled%201.png"><img style="width:1004px" src="html_resources/Untitled%201.png"/></a></figure></div></div><p id="089cbd0c-2c06-4812-9339-fa3734a12a8a" class="">Above are the classification reports for both KNN and Random Forest model. Both models exhibit extreme similarities in all areas of the report which makes it difficult to declare one model as  superior based on the performance of this report alone. </p><p id="e1c04357-76ab-4060-9716-6d0f26b457cf" class="">
+</p><p id="dc647747-ace7-4d1a-a38e-92bb398c1783" class=""><strong>Accuracy: </strong>Both KNN and RF have an accuracy of around 0.95 </p><p id="458a20d7-e62a-4eca-97c2-07ade756490d" class=""><strong>Macro Average:</strong> Macro average across recall and f-1 score is 0.95 for both models</p><p id="d206d8a6-7924-425e-ab26-3b91b0caf4cc" class=""><strong>Weighted Average: </strong>Again, both models have the same weighted average of 0.95 for all precision, recall and f-1 score.</p><p id="03f794c7-797a-44f8-b1f8-c0e333320c46" class="">
+</p><h3 id="af0bd977-8a5a-46d9-8169-6d63fe52468f" class="">MLP &amp; CNN (in-depth explanation)</h3><p id="124dbd57-28bc-47bc-8106-b3e8ed018420" class=""><strong>MLP Layers:</strong></p><ul id="3058a31d-cf04-45ec-9e86-b6d539545cf9" class="bulleted-list"><li style="list-style-type:disc">The input layer has 256 neurons, matching the number of features in the input data.</li></ul><ul id="84470588-ae6e-4041-8ddf-458c36b45bf7" class="bulleted-list"><li style="list-style-type:disc">This is followed by three hidden layers with 256, 128, and 64 neurons, respectively. Each hidden layer uses the ReLU (Rectified Linear Unit) activation function. ReLU is preferred due to its ability to speed up training without significant risk of vanishing gradients.</li></ul><ul id="4ba14d7f-604d-42f1-a6e4-9619ebb91dbc" class="bulleted-list"><li style="list-style-type:disc">The output layer has a number of neurons equal to the number of classes in the dataset and uses the softmax activation function. Softmax is ideal for multi-class classification problems as it outputs a probability distribution over the classes.</li></ul><p id="5c62b2ec-96cd-4b1a-8eb8-6cb4d9f5fe53" class=""><strong>MLP Loss Function:</strong></p><ul id="a4991978-c3da-45b5-a042-75d65b5cff6b" class="bulleted-list"><li style="list-style-type:disc">Categorical Crossentropy is used as the loss function, which is standard for multi-class classification tasks. This function measures the performance of the model whose output is a probability value between 0 and 1.</li></ul><p id="a9f52249-a704-4e11-999d-80f246721639" class=""><strong>MLP Additional Parameters:</strong></p><ul id="073b072a-10fe-4082-afcb-5ee4c6fc092a" class="bulleted-list"><li style="list-style-type:disc">Validation split: 20% - to monitor the model&#x27;s performance on unseen data and prevent overfitting.</li></ul><p id="c0340282-9003-45eb-91fa-6fe847dfbeb4" class=""><strong>CNN Layers:</strong></p><ul id="16138edd-4e58-4308-b99a-39bff4f18761" class="bulleted-list"><li style="list-style-type:disc">The first layer is a Conv2D layer with 32 filters of size 3x3 and uses the ReLU activation function. This layer extracts features such as edges and shapes from the input images.</li></ul><ul id="7e8e958f-ea25-406c-8897-94b1233ba8cb" class="bulleted-list"><li style="list-style-type:disc">A MaxPooling2D layer follows, which reduces the spatial dimensions (height and width) of the output from the previous layer, helping in reducing the computational load and overfitting.</li></ul><ul id="44540e6a-7ffa-43a4-9b3a-f42772e9f57d" class="bulleted-list"><li style="list-style-type:disc">The Flatten layer converts the 2D matrix data to a vector, allowing it to be fed into the dense layers.</li></ul><ul id="e6fddc21-7460-4a2d-8e8b-c42c2fcb9517" class="bulleted-list"><li style="list-style-type:disc">The following Dense layers, with 64 neurons and ReLU activation, further process the features learned from the convolutional layers.</li></ul><ul id="d1fd779d-3d66-481e-9a84-29f60cd36a5e" class="bulleted-list"><li style="list-style-type:disc">The final Dense layer, with a number of neurons equal to the number of unique labels, uses the softmax activation function for multi-class classification.</li></ul><p id="c64b7e17-6971-4a65-a0bd-ffa5633dbe29" class=""><strong>CNN Loss Function:</strong></p><ul id="c625f7c3-0fae-42aa-963d-af020228cf33" class="bulleted-list"><li style="list-style-type:disc">Like the MLP, the CNN employs Categorical Crossentropy as its loss function to effectively manage the multi-class classification nature of the problem.</li></ul><p id="70fe9d06-748d-464f-8c9c-e2e22af72377" class=""><strong>CNN Additional Parameters:</strong></p><ul id="1d78e5fe-569a-4028-8bf9-60983d609024" class="bulleted-list"><li style="list-style-type:disc">Validation split: 20% - used to validate the model&#x27;s performance against unseen data.</li></ul><p id="1c65e98c-de1b-47d1-bde0-625382cdc54b" class="">
+</p><h3 id="2909c95c-e450-406d-bb8e-beed1c85b349" class=""><strong>MLP &amp; CNN (Training Visualization)</strong></h3><p id="cbaacfbd-d710-4a4a-83d3-14977cb71c26" class=""><strong>MLP Training Visualization</strong></p><figure id="4b0e2184-da34-48b8-9aa5-bb9fc9712f67" class="image"><a href="html_resources/Untitled%202.png"><img style="width:1311px" src="html_resources/Untitled%202.png"/></a></figure><p id="fe9cde94-e48b-4f6a-9367-e1ad5e1f5f80" class=""><strong>MLP Training &amp; Validation Accuracy</strong></p><ul id="ab5c0ba7-6961-45f1-8178-32309871abeb" class="bulleted-list"><li style="list-style-type:disc">The training accuracy starts at approximately 50% and rapidly increases to above 80% within the initial 10 epochs. This suggests that the model is quickly learning from the training data.</li></ul><ul id="dcebad9d-90ff-4262-84e2-fce650efd93f" class="bulleted-list"><li style="list-style-type:disc">The validation accuracy closely follows the training accuracy, indicating that the model generalizes well to unseen data. There is no significant gap between training and validation accuracy, which implies that the model is not overfitting.</li></ul><ul id="a9748d69-bcb9-4a6c-87bd-7c4bb7db5e8d" class="bulleted-list"><li style="list-style-type:disc">Both accuracies plateau after around 10 epochs, with the training accuracy slightly higher than the validation accuracy. </li></ul><p id="a1e0eb63-b16a-4547-a251-f67b93975aff" class=""><strong>MLP Training &amp; Validation Loss</strong></p><ul id="0e5b99b9-e7cb-43a6-9060-000295eba623" class="bulleted-list"><li style="list-style-type:disc">The training loss shows a steep decline in the beginning, dropping from around 1.6 to below 0.4 in the first 10 epochs, which corresponds to the rapid learning phase observed in the accuracy graph.</li></ul><ul id="3d9febaa-ab52-45b4-989a-e73992de6de1" class="bulleted-list"><li style="list-style-type:disc">The validation loss decreases alongside the training loss and stabilizes around the same point, following a similar pattern to the accuracy graph. This further indicates that the model is not overfitting.</li></ul><ul id="b78f0b78-d0f6-446a-aff2-e7870b6a5a2c" class="bulleted-list"><li style="list-style-type:disc">Both losses reach a plateau after about 10 epochs, with minor fluctuations but no substantial decrease afterward. The consistency between training and validation loss suggests that the model is stable and has converged well.</li></ul><p id="09a18eae-6c43-43cc-9a97-b76c1e8c17aa" class=""><strong>CNN Training Visualization</strong></p><figure id="a10c27fb-8045-4d32-832f-45af2c21458a" class="image"><a href="html_resources/Untitled%203.png"><img style="width:1311px" src="html_resources/Untitled%203.png"/></a></figure><p id="74dc2612-5f2b-49dc-9e06-d484de722ab1" class=""><strong>CNN Training &amp; Validation Accuracy:</strong></p><ul id="b7b2ba16-8f9f-482c-ad1f-7a1734f7734d" class="bulleted-list"><li style="list-style-type:disc">The training accuracy graph shows a steady increase from approximately 30% to just over 70% within the first few epochs, reflecting the model&#x27;s rapid initial learning.</li></ul><ul id="74f906ee-f881-46ed-9a1e-0b4d89d75e8e" class="bulleted-list"><li style="list-style-type:disc">Validation accuracy starts lower but rises quickly to closely follow the training accuracy, peaking around 80%. This convergence suggests that the model is generalizing well without significant overfitting.</li></ul><ul id="a9441145-8e44-4ee6-83c9-622b4613ac43" class="bulleted-list"><li style="list-style-type:disc">Both accuracies stabilize shortly after, with validation accuracy slightly lower than training accuracy, which is a typical sign of good fit.</li></ul><p id="8f9d186a-893d-4333-99c2-f93bf8eae4d7" class=""><strong>CNN Training &amp; Validation Loss:</strong></p><ul id="fe6771d6-8ffb-4b16-86ae-4237ec270bda" class="bulleted-list"><li style="list-style-type:disc">The training loss decreases sharply from a starting point of around 2.0 to below 0.5 within the first few epochs, indicating that the model is effectively reducing errors quickly.</li></ul><ul id="9d7d2c75-2778-4d7b-b41b-bb6b97ca6ec9" class="bulleted-list"><li style="list-style-type:disc">Validation loss mirrors this descent, beginning higher than training loss but reducing to below 1.0. It demonstrates a good fit, as it closely tracks the training loss without diverging, which would indicate overfitting.</li></ul><ul id="8ccbb14a-63a1-43df-a0d7-8e58d723d8e2" class="bulleted-list"><li style="list-style-type:disc">After the initial sharp decline, both loss curves plateau, with the validation loss showing a slight increase in the later epochs, which could be a sign of beginning overfitting or simply the model reaching its performance limit with the given architecture and data.</li></ul><p id="068fadc6-63c7-43eb-b90f-c2f835f787ef" class="">
+</p><p id="5738b1b7-eb50-496c-92e1-c4a0cc47972a" class="">
+</p><div id="13892cf1-af38-44d2-99a6-1d875bf35e45" class="column-list"><div id="dbfd6a7d-66b2-4d2b-9a41-8e479a8804cc" style="width:100%" class="column"><p id="a6621039-8637-4a5e-a692-faf9ecdef579" class=""><strong>MLP Classification Report<br/>Test Accuracy : 0.911<br/></strong></p><figure id="264175c3-b3c8-4773-a4fe-68d73b9d1fbe" class="image"><a href="html_resources/Untitled%204.png"><img style="width:1014px" src="html_resources/Untitled%204.png"/></a></figure></div><div id="a597c867-fc26-4b84-8b5a-f37432d4e4e4" style="width:100%" class="column"><p id="767f8ae7-71c7-4a89-949d-d42d7912cfc9" class=""><strong>CNN Classification Report<br/>Test Accuracy : 0.856<br/></strong></p><figure id="50df60df-e803-4484-b4ec-ac4b3f6973f9" class="image"><a href="html_resources/Untitled%205.png"><img style="width:1012px" src="html_resources/Untitled%205.png"/></a></figure></div></div><p id="cda2e0e3-dbd1-4e7c-a38a-6e993e6e366d" class="">After hyper-parameterization and finding the optimal parameters for all four of the models, I ran the test data and recorded the accuracy of each classifier. The results are graphed on the figure below.</p><figure id="03d66542-7838-4edf-add9-0b4865b20664" class="image"><a href="html_resources/Untitled%206.png"><img style="width:480px" src="html_resources/Untitled%206.png"/></a></figure><h2 id="b7233eb6-8e82-4fb2-a04d-7557098795fc" class="">8 | Discussion</h2><p id="d7247ff5-2ab1-4dcc-9b2c-6c62090e1485" class="">
+</p><p id="7090d778-190c-4dfc-a1db-9d8ca68fdc79" class="">The empirical results of the machine learning models in recognizing American Sign Language (ASL) fingerspelling have been extremely enlightening. It was observed that K-Nearest Neighbors (KNN) and Random Forest (RF) classifiers achieved remarkable accuracy levels, approximately 0.95. This high accuracy suggests that both models have successfully captured the underlying patterns and nuances of ASL fingerspelling in the novel dataset, “ASL_PB_MNIST.” The success of these models can be attributed to their robustness in handling multi-class classification problems and their ability to generalize well from the training data.</p><p id="512f33dd-7794-44d2-a6eb-e4c705a6dd38" class="">On the other hand, the neural network models, Multilayer Perceptron (MLP) and Convolutional Neural Network (CNN), yielded lower accuracies of 0.911 and 0.856, respectively. While these figures are respectable, they fall short when compared to the result of the KNN and RF models. This discrepancy could be due to the inherent complexity of neural networks, which require extensive resources for training and optimization to achieve their full potential.</p><p id="3baf0835-50fd-4574-b219-915b560b40e1" class="">Training neural networks is a resource-intensive task, often requiring significant computational power and time to fine-tune numerous parameters and hyperparameters. Due to limited resources and time constraints, I was not able to explore the depths of neural network optimization fully. The  process of training, validating, and testing these models to enhance their accuracies was a compute-heavy endeavor. Despite these constraints, the intermediate level of implementation of the MLP and CNN models performed meaningfully, showcasing the intrinsic value of neural networks in machine learning tasks.</p><p id="98106904-4a05-45a4-9eec-1769d7114d11" class="">I was content with the performance of the KNN and RF models, which have proven to be efficient and less resource-dependent. Their high accuracy rates and the resource-independence offer many possibilities for practical applications, such as developing assistive technologies for the deaf community. As for our neural network models, even with the moderate level of optimization, they have demonstrated significant potential. With more resources, there is a possibility to further refine these models, which could lead to even more accurate and reliable ASL recognition systems in the future.</p><p id="2f00d188-161f-4edf-a4b2-764003c147ba" class="">In conclusion, while I recognize the limitations imposed by resource constraints, I remain optimistic about the future of neural network applications in this domain. The success of the KNN and RF models validates the approach, and the initial results from the MLP and CNN models lay a strong foundation for future work, which, with adequate resources, could lead to useful advancements in machine learning-based ASL recognition.</p><h2 id="4f9061ec-8bb0-4c8b-a89a-394deb493aac" class="">9 | Resources</h2><p id="5806187d-cede-4fbb-9035-7df6380ec2cf" class=""><div class="indented"><p id="4e6e0c1f-fa35-4b2f-a32e-52db625f64b7" class=""><strong>Code &amp; Database</strong></p><table id="100a021f-7d28-487c-bf87-97ca9a04e424" class="simple-table"><tbody><tr id="a57d2e36-97f0-46ad-8a93-4bedc82f1602"><td id="O@C|" class=""></td><td id="&gt;GjX" class="" style="width:519.9884338378906px">link</td></tr><tr id="a6709139-5548-4907-aa7c-ed1aaae41d27"><td id="O@C|" class="">Code</td><td id="&gt;GjX" class="" style="width:519.9884338378906px"><a href="https://drive.google.com/drive/folders/1afxnjtM-CcnGGWuDW_BClNRAJT1vc0TQ?usp=sharing">https://drive.google.com/drive/folders/1afxnjtM-CcnGGWuDW_BClNRAJT1vc0TQ?usp=sharing</a></td></tr><tr id="55821cf4-2025-43c2-85a7-8e05558075a4"><td id="O@C|" class="">MNIST &amp; ASL Fingerspelling</td><td id="&gt;GjX" class="" style="width:519.9884338378906px"><a href="https://drive.google.com/drive/folders/1fFSrGU2dLqR-uha-52OQzZDKSIBmPpXe?usp=sharing">https://drive.google.com/file/d/1sN15APSvrkQKDjkjLZGftltuqzQ6FcMW/view?usp=drive_link</a></td></tr><tr id="77896b58-d0d1-4cb9-a78c-c61094569f68"><td id="O@C|" class="">ASL_PB_MNIST</td><td id="&gt;GjX" class="" style="width:519.9884338378906px"><a href="https://drive.google.com/drive/folders/1yxxwhWhjLcYwqraz88yIK8LVxASmCQ4M?usp=drive_link">https://drive.google.com/drive/folders/1yxxwhWhjLcYwqraz88yIK8LVxASmCQ4M?usp=drive_link</a></td></tr></tbody></table></div></p><p id="c1d7a054-3aff-4066-9273-558178f282b5" class="">
+</p><p id="81dae91e-e2a4-4947-aaab-ad179c81f003" class="">
+</p><p id="bf0e7b95-b13b-4af3-951c-d79eb24ba1b4" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

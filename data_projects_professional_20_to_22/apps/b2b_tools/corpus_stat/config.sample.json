@@ -1,0 +1,93 @@
+{
+	"stat_file_p": "절대 경로로 된 통계 엑셀 파일",
+	"langs": [
+		{
+			"code": "zz",
+			"name": "Select"
+		},
+		{
+			"code": "yy",
+			"name": "All"
+		},
+		{
+			"code": "ar",
+			"name": "Arabic"
+		},
+		{
+			"code": "zh",
+			"name": "Chinese (Simplified)"
+		},
+		{
+			"code": "en",
+			"name": "English"
+		},
+		{
+			"code": "fr",
+			"name": "French"
+		},
+		{
+			"code": "de",
+			"name": "German"
+		},
+		{
+			"code": "hi",
+			"name": "Hindi"
+		},
+		{
+			"code": "id",
+			"name": "Indonesian"
+		},
+		{
+			"code": "it",
+			"name": "Italian"
+		},
+		{
+			"code": "ja",
+			"name": "Japanese"
+		},
+		{
+			"code": "ko",
+			"name": "Korean"
+		},
+		{
+			"code": "ms",
+			"name": "Malay"
+		},
+		{
+			"code": "ne",
+			"name": "Nepali"
+		},
+		{
+			"code": "pl",
+			"name": "Polish"
+		},
+		{
+			"code": "pt",
+			"name": "Portuguese"
+		},
+		{
+			"code": "ru",
+			"name": "Russian"
+		},
+		{
+			"code": "es",
+			"name": "Spanish"
+		},
+		{
+			"code": "tl",
+			"name": "Tagalog"
+		},
+		{
+			"code": "th",
+			"name": "Thai"
+		},
+		{
+			"code": "tr",
+			"name": "Turkish"
+		},
+		{
+			"code": "vi",
+			"name": "Vietnamese"
+		}
+	]
+}
