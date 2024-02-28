@@ -7,7 +7,7 @@ do
 	then
 		text=`echo Warning: CorpusBot is dead.`
 		json="{\"channel\": \"#corpus_factory\", \"username\": \"corpusbot_guard\", \"icon_emoji\": \":catch:\", \"text\": \"$text\"}"
-		curl -s -d "payload=$json" "https://hooks.slack.com/services/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"
+		curl -s -d "payload=$json" "slackwebhook"
 		exit
 	fi
 

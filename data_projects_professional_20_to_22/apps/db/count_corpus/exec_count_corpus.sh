@@ -14,7 +14,7 @@ echo ===== ===== =====
 
 text=`echo [INFO] counting mono corpora is complete!`
 json="{\"channel\": \"#corpus_log\", \"username\": \"corpus\", \"icon_emoji\": \":corpus:\", \"text\": \"$text\"}"
-curl -s -d "payload=$json" "https://hooks.slack.com/services/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"
+curl -s -d "payload=$json" "slack webhook"
 
 echo ===== ===== =====
 echo counting 2-pair corpora ...
@@ -30,4 +30,4 @@ echo ===== ===== =====
 
 text=`echo [INFO] counting 2-pair corpora is complete!`
 json="{\"channel\": \"#corpus_log\", \"username\": \"corpus\", \"icon_emoji\": \":corpus:\", \"text\": \"$text\"}"
-curl -s -d "payload=$json" "https://hooks.slack.com/services/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"
+curl -s -d "payload=$json" "slack webhook"
